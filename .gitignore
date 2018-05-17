@@ -1,0 +1,11 @@
+.idea/
+.gradle/
+build/
+obj/
+*.iml
+local.properties
+*.keystore
+gradle.properties
+TMessagesProj/build
+
+TMessagesProj/src/main/java/ir/telgeram/messenger/BuildVars.java

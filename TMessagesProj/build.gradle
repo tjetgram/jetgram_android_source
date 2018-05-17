@@ -1,0 +1,211 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://jitpack.io" }
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
+}
+
+configurations {
+    compile.exclude module: 'support-v4'
+}
+
+dependencies {
+
+
+
+    compile 'com.android.support:support-core-ui:25.3.1'
+    compile 'com.android.support:support-compat:25.3.1'
+    compile 'com.android.support:support-core-utils:25.3.1'
+    compile 'com.android.support:support-v13:25.3.1'
+    compile 'com.android.support:palette-v7:25.3.1'
+    compile 'net.hockeyapp.android:HockeySDK:4.1.2'
+    compile 'com.googlecode.mp4parser:isoparser:1.0.6'
+    compile 'com.stripe:stripe-android:2.0.2'
+
+    // Adel
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile files('libs/android-viewbadger.jar')
+    compile files('libs/ksoap2-android-assembly-3.1.1-jar-with-dependencies.jar')
+//   compile 'co.ronash.android:pushe-base:1.2.0'
+ //   compile 'com.onesignal:OneSignal:[3.5.3,4.0.0)'
+    compile 'com.github.QuadFlask:colorpicker:0.0.12'
+    // Download, Catch, Etc... Images
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+
+    //sina
+    compile 'com.google.android.gms:play-services:9.6.0'
+    compile 'com.google.android.gms:play-services-maps:9.6.0'
+    compile 'com.google.android.gms:play-services-vision:9.6.0'
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+
+    useLibrary 'org.apache.http.legacy'
+    defaultConfig.applicationId = "com.mtimili.jettele"
+
+ /*   sourceSets.main.jniLibs.srcDirs = ['./jni/']
+
+    externalNativeBuild {
+        ndkBuild {
+            path "jni/Android.mk"
+        }
+    }*/
+
+    dexOptions {
+        jumboMode = true
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets.main {
+        jniLibs.srcDir 'libs'
+        jni.srcDirs = []
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+  /*  signingConfigs {
+        debug {
+            storeFile file("config/release.keystore")
+            storePassword "PASS"
+            keyAlias "KEY"
+            keyPassword "PASS"
+            v2SigningEnabled false
+        }
+
+        release {
+            storeFile file("config/release.keystore")
+            storePassword "PASS"
+            keyAlias "KEY"
+            keyPassword "PASS"
+            v2SigningEnabled false
+        }
+    }*/
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.debug
+           // signingConfig signingConfigs.debug
+        }
+
+        release {
+            debuggable false
+            jniDebuggable false
+         //   signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        foss {
+            debuggable false
+            jniDebuggable false
+          //  signingConfig signingConfigs.release
+        }
+    }
+
+    defaultConfig.versionCode = 1
+/*
+    sourceSets.debug {
+        manifest.srcFile 'config/debug/AndroidManifest.xml'
+    }
+
+    sourceSets.release {
+        manifest.srcFile 'config/release/AndroidManifest.xml'
+    }
+
+    sourceSets.foss {
+        manifest.srcFile 'config/foss/AndroidManifest.xml'
+    }
+*/
+ /*  productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+            versionCode = 2
+        }
+        armv7 {
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+            versionCode = 1
+        }
+        x86_SDK23 {
+            ndk {
+                abiFilter "x86"
+            }
+            sourceSets.debug {
+                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
+            }
+            sourceSets.release {
+                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
+            }
+            minSdkVersion 23
+            versionCode = 4
+        }
+        armv7_SDK23 {
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+            sourceSets.debug {
+                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
+            }
+            sourceSets.release {
+                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
+            }
+            minSdkVersion 23
+            versionCode = 3
+        }
+        fat {
+            sourceSets.debug {
+                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
+            }
+            sourceSets.release {
+                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
+            }
+            versionCode = 5
+        }
+    }*/
+
+  /* applicationVariants.all { variant ->
+        def abiVersion = variant.productFlavors.get(0).versionCode
+        vare = defaultConfig.versionCode * 10 + abiVersioniant.mergedFlavor.versionCod
+    }*/
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionName "1.0"
+        multiDexEnabled true
+
+        externalNativeBuild {
+            ndkBuild {
+                arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-14"
+                abiFilters "armeabi-v7a", "x86"
+            }
+        }
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+}
+
+//apply plugin: 'com.google.gms.google-services'
